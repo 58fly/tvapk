@@ -1,0 +1,49 @@
+apply plugin: 'com.android.application'
+
+android {
+    buildFeatures {
+        buildConfig true
+    }
+
+    defaultConfig {
+        compileSdk=36
+        minSdkVersion 24
+        targetSdkVersion 36
+        versionCode 1404
+        versionName "1.4.4"
+
+        ndk {
+            //noinspection ChromeOsAbiSupport
+//            abiFilters "arm64-v8a"
+            //noinspection ChromeOsAbiSupport
+            abiFilters "armeabi-v7a"
+            // Note: On x86/x86_64 geckoview can crash erratically
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    namespace 'com.threethan.browser'
+    lint {
+        abortOnError true
+        disable 'Accessibility'
+    }
+}
+ext {
+    // https://maven.mozilla.org/?prefix=maven2/org/mozilla/geckoview/
+    geckoviewVersion = "144.0.20251009125714" // Newer versions have issues :(
+}
+dependencies {
+    implementation "org.mozilla.geckoview:geckoview:${geckoviewVersion}"
+    implementation 'androidx.datastore:datastore-preferences-rxjava3:1.1.7'
+    implementation 'androidx.recyclerview:recyclerview:1.4.0'
+    testImplementation 'junit:junit:4.13.2'
+}

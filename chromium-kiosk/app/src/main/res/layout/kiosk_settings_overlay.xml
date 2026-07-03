@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/kioskSettingsOverlay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#66000000"
+    android:clickable="true"
+    android:focusable="true"
+    android:visibility="gone"
+    tools:visibility="visible">
+
+    <LinearLayout
+        android:id="@+id/kioskSettingsPanel"
+        android:layout_width="720dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/bkg_kiosk_settings_panel"
+        android:focusable="false"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/kioskSettingsTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/kiosk_settings_title"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/kioskUrlLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="@string/kiosk_settings_url"
+            android:textColor="#DDFFFFFF"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/kioskUrlEdit"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bkg_kiosk_field"
+            android:imeOptions="actionDone"
+            android:inputType="textUri"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#99FFFFFF"
+            android:textSize="16sp"
+            tools:text="http://47.94.161.17:3000/wl.html" />
+
+        <LinearLayout
+            android:id="@+id/kioskZoomHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/kioskZoomLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/kiosk_settings_zoom"
+                android:textColor="#DDFFFFFF"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/kioskZoomValue"
+                android:layout_width="84dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="100%" />
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/kioskZoomSeek"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="6dp"
+            android:max="9"
+            android:progress="9" />
+
+        <TextView
+            android:id="@+id/kioskKernelTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/kiosk_kernel_title"
+            android:textColor="#DDFFFFFF"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/kioskKernelInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bkg_kiosk_field"
+            android:lineSpacingExtra="3dp"
+            android:minHeight="112dp"
+            android:paddingStart="14dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="14dp"
+            android:paddingBottom="10dp"
+            android:textColor="#E6FFFFFF"
+            android:textSize="14sp"
+            tools:text="系统内核：com.android.webview / 61.0.3163.98 / Chromium 61&#10;APK 内置：com.google.android.webview / 119.0.6045.53 / Chromium 119&#10;当前实际：com.google.android.webview / 119.0.6045.53 / Chromium 119&#10;替换状态：替换成功 100%" />
+
+        <LinearLayout
+            android:id="@+id/kioskSettingsActions"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="18dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/kioskRestoreDefault"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bkg_kiosk_overlay_button"
+                android:text="@string/kiosk_settings_restore_default"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/kioskCancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bkg_kiosk_overlay_button"
+                android:text="@string/kiosk_settings_cancel"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/kioskSave"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bkg_kiosk_overlay_button"
+                android:text="@string/kiosk_settings_save"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/kioskExit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bkg_kiosk_overlay_button_exit"
+                android:text="@string/kiosk_settings_exit"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/kioskSettingsVersion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:gravity="end"
+            android:textColor="#B3FFFFFF"
+            android:textSize="13sp"
+            tools:text="v1.0.0-chromium119 / build 119001" />
+    </LinearLayout>
+</FrameLayout>

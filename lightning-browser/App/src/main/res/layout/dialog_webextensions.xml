@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bkg_dialog"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <View
+        android:layout_width="450dp"
+        android:layout_height="0dp" />
+
+    <ImageView
+        android:id="@+id/dismissButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="-30dp"
+        android:background="@drawable/bkg_hover_button_small"
+        android:src="@drawable/ic_back" />
+
+    <TextView
+        style="@style/Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/extension_prompt_title" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:descendantFocusability="afterDescendants"/>
+
+    <TextView
+
+        android:id="@+id/getMoreButton"
+        style="@style/SettingsText"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bkg_button"
+        android:gravity="center"
+        android:text="@string/extension_prompt_hint">
+        <requestFocus/>
+    </TextView>
+
+</LinearLayout>

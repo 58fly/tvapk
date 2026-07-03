@@ -1,0 +1,33 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.pingfeng.tvapk.chromium'
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    defaultConfig {
+        applicationId 'com.pingfeng.tvapk.chromium'
+        compileSdk 35
+        minSdkVersion 24
+        targetSdkVersion 35
+        versionCode 119001
+        versionName '1.0.0-chromium119'
+    }
+
+    aaptOptions {
+        noCompress 'apk'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation project(':webviewup-core')
+}

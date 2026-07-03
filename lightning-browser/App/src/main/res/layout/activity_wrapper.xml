@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="35dp"
+    android:layout_marginEnd="35dp"
+    android:divider="@null"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="35dp"
+        android:gravity="center"
+        tools:ignore="UseCompoundDrawables">
+        <ImageView
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginBottom="4.8dp"
+            android:src="@mipmap/splash" />
+        <TextView
+            style="@style/Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="0dp"
+            android:paddingEnd="10dp"
+            android:text="@string/app_name" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/topBarEdit"
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
+        android:orientation="horizontal">
+
+
+        <com.threethan.browser.wrapper.EditTextWatched
+            android:id="@+id/urlEdit"
+            style="@style/SettingButtonLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bkg_button_chip"
+            android:ems="10"
+            android:hint="@string/web_search"
+            android:inputType="textUri"
+            android:paddingStart="18dp"
+            android:paddingEnd="15dp"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:textColorHint="#8FFF" />
+
+        <ImageButton
+            android:id="@+id/confirm"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/bkg_button_chip"
+            android:padding="10dp"
+            android:src="@drawable/web_forward"
+            android:tint="@color/color_button_icon"
+            android:tooltipText="@string/web_confirm"
+            android:visibility="visible"
+            tools:ignore="UnusedAttribute" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bookmarksSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_marginBottom="-100dp">
+
+        <TextView
+            style="@style/Subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/bookmarks_title" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/bookmarkList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:paddingBottom="100dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tabsSectionActive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_marginBottom="-100dp">
+
+        <TextView
+            android:id="@+id/tabsTitleActive"
+            style="@style/Subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/tabs_title_active" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tabListActive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:paddingBottom="100dp">
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/tabsSectionSuspended"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_marginBottom="-100dp"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/tabsTitleSuspended"
+            style="@style/Subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/tabs_title_suspended" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tabListSuspended"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="100dp"
+            android:clipToPadding="false">
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/tabsInfoActive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            style="@style/SettingsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.5"
+            android:padding="3dp"
+            android:layout_marginEnd="50dp"
+            android:text="@string/tabs_info_active"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tabsInfoActiveDisable"
+            style="@style/SettingsText"
+            android:layout_marginStart="-50dp"
+            android:layout_width="150dp"
+            android:minWidth="100dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bkg_hover_button_small"
+            android:padding="3dp"
+            android:text="@string/tabs_info_active_disable"
+            android:textSize="12sp" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tabsInfoSuspendedChange"
+        style="@style/SettingsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/bkg_hover_button_small"
+        android:text="@string/tabs_info_suspended_change"
+        android:textSize="12sp"
+        android:visibility="gone"/>
+
+</LinearLayout>
+
