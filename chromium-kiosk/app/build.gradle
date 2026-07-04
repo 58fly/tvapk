@@ -14,8 +14,8 @@ android {
         compileSdk 35
         minSdkVersion 24
         targetSdkVersion 35
-        versionCode 119001
-        versionName '1.0.0-chromium119'
+        versionCode 119002
+        versionName '1.0.1-chromium119'
     }
 
     aaptOptions {

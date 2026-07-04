@@ -619,7 +619,10 @@ public class BrowserActivity extends BoundActivity {
                         }
                     }
                 } else {
-                    wService.setWebViewActive(tabId, false);
+                    // System is reclaiming this activity (e.g. low memory).
+                    // Do NOT keep WebView in memory to prevent accumulation leak.
+                    AppDiagnostics.record(this, "WEBVIEW_KILL", "system_reclaim tab=" + tabId);
+                    wService.killWebView(tabId);
                 }
                 wService.removeActivity(this);
             }

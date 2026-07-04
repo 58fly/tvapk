@@ -130,8 +130,29 @@ public class BrowserWebView extends ScrollHandlingGeckoView {
                 .flags(GeckoSession.LOAD_FLAGS_BYPASS_CACHE));
     }
     public void kill() {
-        Objects.requireNonNull(getSession()).close();
+        GeckoSession session = getSession();
+        if (session != null) {
+            session.setHistoryDelegate(null);
+            session.setPermissionDelegate(null);
+            session.setProgressDelegate(null);
+            session.setContentDelegate(null);
+            session.setPromptDelegate(null);
+            session.setNavigationDelegate(null);
+            session.setMediaSessionDelegate(null);
+            session.close();
+        }
         releaseSession();
+        clearActivityReferences();
+    }
+
+    private void clearActivityReferences() {
+        navigationDelegate.mActivity = null;
+        progressDelegate.mActivity = null;
+        promptDelegate.mActivity = null;
+        contentDelegate.mActivity = null;
+        permissionDelegate.mActivity = null;
+        mediaSessionDelegate.mActivity = null;
+        // historyDelegate doesn't hold activity
     }
 
     // Startups

@@ -31,6 +31,11 @@ public class KioskActivity extends Activity {
     public static final String TARGET_URL = KioskSettings.DEFAULT_TARGET_URL;
     private static final long KERNEL_WAIT_TIMEOUT_MS = 15000L;
 
+    // Memory management
+    private static final long MEMORY_CLEAN_INTERVAL_MS = 6L * 60L * 60L * 1000L; // 6 hours
+    private static final long MEMORY_THRESHOLD_MB = 300L; // Threshold to trigger forced clean
+    private static final long MEMORY_REFRESH_DELAY_MS = 3000L; // Wait before refreshing page
+
     private WebView webView;
     private TextView diagnosticView;
     private TextView errorView;
@@ -42,6 +47,13 @@ public class KioskActivity extends Activity {
     private KioskSettingsOverlay settingsOverlay;
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
     private boolean contentCreated;
+    private final Runnable memoryCleanerRunnable = new Runnable() {
+        @Override
+        public void run() {
+            performMemoryClean();
+            mainHandler.postDelayed(this, MEMORY_CLEAN_INTERVAL_MS);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +83,7 @@ public class KioskActivity extends Activity {
 
     @Override
     protected void onDestroy() {
+        mainHandler.removeCallbacks(memoryCleanerRunnable);
         if (webView != null) {
             webView.destroy();
             webView = null;
@@ -143,6 +156,9 @@ public class KioskActivity extends Activity {
         updateZoomLabel(settingsController.getActiveSettings().zoomPercent);
         webView.requestFocus();
         webView.loadUrl(settingsController.getActiveSettings().targetUrl);
+
+        // Start periodic memory cleaning for long-running kiosk mode
+        mainHandler.postDelayed(memoryCleanerRunnable, MEMORY_CLEAN_INTERVAL_MS);
     }
 
     private void waitForKernelThenCreateContent() {
@@ -444,5 +460,40 @@ public class KioskActivity extends Activity {
 
     private static String formatMajor(int major) {
         return major > 0 ? String.valueOf(major) : "-";
+    }
+
+    // Memory management for long-running kiosk mode
+    private void performMemoryClean() {
+        if (webView == null) return;
+
+        long usedMb = getMemoryUsedMb();
+        if (usedMb < MEMORY_THRESHOLD_MB) {
+            return; // Memory usage is acceptable, skip cleaning
+        }
+
+        android.util.Log.i("MemoryCleaner", "Memory threshold exceeded: " + usedMb + "MB, performing clean");
+
+        // 1. Clear caches
+        webView.clearCache(true);
+        webView.clearHistory();
+        webView.clearFormData();
+
+        // 2. Trigger garbage collection
+        System.gc();
+
+        // 3. Reload page after delay to release accumulated memory
+        if (webView.getUrl() != null) {
+            final String url = webView.getUrl();
+            mainHandler.postDelayed(() -> {
+                if (webView != null) {
+                    webView.loadUrl(url);
+                }
+            }, MEMORY_REFRESH_DELAY_MS);
+        }
+    }
+
+    private long getMemoryUsedMb() {
+        Runtime runtime = Runtime.getRuntime();
+        return (runtime.totalMemory() - runtime.freeMemory()) / 1024L / 1024L;
     }
 }

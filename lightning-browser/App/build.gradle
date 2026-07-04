@@ -9,8 +9,8 @@ android {
         compileSdk=36
         minSdkVersion 24
         targetSdkVersion 36
-        versionCode 1404
-        versionName "1.4.4"
+        versionCode 1405
+        versionName "1.4.5"
 
         ndk {
             //noinspection ChromeOsAbiSupport

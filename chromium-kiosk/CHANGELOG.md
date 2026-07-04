@@ -1,5 +1,34 @@
 # 变更日志
 
+## [1.0.1-chromium119] - 2026-07-04
+
+### 修复
+
+- **修复长时间运行内存泄漏导致崩溃：**  kiosk 模式 24/7 运行时，WebView 缓存和历史记录持续累积，运行 30-40 小时后触发 OOM 崩溃。新增定期内存清理机制。
+- **新增 `memoryCleanerRunnable` 定期内存清理：** 每 6 小时检查一次内存占用，超过 300MB 时自动清理 `WebView.clearCache(true)`、`clearHistory()`、`clearFormData()`，并触发 `System.gc()`。
+- **新增页面刷新延迟机制：** 内存清理后等待 3 秒再刷新页面，确保缓存释放生效。
+- **新增 `onDestroy()` 取消定时任务：** 防止 Activity 销毁后 Handler 持有隐式引用导致内存泄漏。
+
+### 变更
+
+- 应用版本更新为 `versionCode=119002`、`versionName='1.0.1-chromium119'`。
+
+### 验证
+
+- `./gradlew :app:assembleDebug` 构建通过。
+- `aapt dump badging` 确认 `versionCode='119002'`、`versionName='1.0.1-chromium119'`、`sdkVersion='24'`、`targetSdkVersion='35'`。
+- `aapt` 确认包名为 `com.pingfeng.tvapk.chromium`。
+
+### 产物
+
+```text
+APK 路径：/Volumes/data/tvapk/dist/tvapk-chromium119-v1.0.1.apk
+快捷路径：/Volumes/data/tvapk/dist/tvapk-chromium119.apk
+APK 大小：约 87MB
+SHA256：3a3949cb883e5b7f30ee8caedf8b4ec3eb592bd136b8bb3349d72d96f4e28e10
+签名类型：debug 签名
+```
+
 ## [1.0.0-chromium119] - 2026-06-29
 
 ### 新增

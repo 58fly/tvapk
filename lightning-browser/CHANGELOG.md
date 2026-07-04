@@ -4,6 +4,40 @@
 
 格式遵循 Keep a Changelog 风格，版本号遵循 `主版本.次版本.修订版本` 规则。
 
+## [V1.4.5-debug] - 2026-07-04
+
+### 修复
+
+- **修复系统回收 Activity 时 WebView 内存泄漏问题：** 当设备低内存触发系统回收 `BrowserActivity` 时（`isFinishing() == false`），旧逻辑仅将 WebView 设为 inactive，导致 `webViewByTabId` 中 WebView 实例持续累积。运行 30-40 小时后触发 OOM 崩溃。修复后系统回收时直接 `killWebView()` 彻底释放资源。
+- **修复 `BrowserWebView.kill()` 未清理 Delegate 引用：** `kill()` 现在会主动将所有 Delegate（`HistoryDelegate`、`PermissionDelegate`、`ProgressDelegate`、`ContentDelegate`、`PromptDelegate`、`NavigationDelegate`、`MediaSessionDelegate`）设为空，切断 Activity 引用链，确保 GC 回收。
+- **修复 `BrowserService.killWebView()` 对已 finishing Activity 重复调用 `finish()`：** 添加 `isFinishing()` 判断，避免在 Activity 已被系统回收时再次触发 finish 异常。
+- **修复 `BrowserService.onDestroy()` 残留 WebView 泄漏：** Service 销毁时遍历并强制 `killWebView()` 清理所有剩余 WebView，防止 Service 重启后旧实例残留。
+
+### 新增
+
+- **新增 `MemoryCleaner` 定期内存清理服务：** 每 6 小时自动触发一次，清理 GeckoRuntime Storage、WebView Cache，并强制 GC，防止长时间挂机内存持续增长。
+- **新增 `MemoryCleaner.checkAndCleanIfNeeded()` 阈值清理：** 当 Java Heap 超过 400MB 时自动触发紧急清理。
+
+### 变更
+
+- 应用版本更新为 `versionCode=1405`、`versionName=1.4.5`。
+
+### 验证
+
+- `:App:assembleDebug` 构建通过。
+- `aapt dump badging` 确认 `versionCode='1405'`、`versionName='1.4.5'`、`sdkVersion='24'`、`targetSdkVersion='36'`。
+- `aapt` 确认包名为 `com.threethan.browser`。
+
+### 产物
+
+```text
+APK 路径：/Volumes/data/tvapk/dist/tvapk-lightning-gecko-v1.4.5-1405-debug.apk
+快捷路径：/Volumes/data/tvapk/dist/tvapk-lightning-gecko-debug.apk
+APK 大小：约 91MB
+SHA256：f43e58b69231a6f229bd5d512367e5fb358f033dda112edace4a7aa42b141b78
+签名类型：debug 签名
+```
+
 ## [V1.4.4-debug] - 2026-07-02
 
 ### 修复

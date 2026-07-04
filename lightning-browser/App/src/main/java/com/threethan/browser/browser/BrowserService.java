@@ -71,9 +71,14 @@ public class BrowserService extends Service {
     private final static int NOTIFICATION_ID = 42;
     private static final ExtensionPromptDelegate extensionPromptDelegate = new ExtensionPromptDelegate();
 
+    // Memory cleaner for periodic memory reclamation
+    private MemoryCleaner memoryCleaner;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        memoryCleaner = new MemoryCleaner(this);
+        memoryCleaner.start();
         AppDiagnostics.record(this, "SERVICE_CREATE", "BrowserService created");
     }
 
@@ -246,6 +251,11 @@ public class BrowserService extends Service {
     @Override
     public void onDestroy() {
         AppDiagnostics.record(this, "SERVICE_DESTROY", "webViews=" + webViewByTabId.size());
+        if (memoryCleaner != null) memoryCleaner.stop();
+        // Force kill all remaining WebViews to prevent memory leak
+        for (String tabId : new ArrayList<>(webViewByTabId.keySet())) {
+            killWebView(tabId);
+        }
         try {
             unregisterReceiver(onDownloadComplete);
         } catch (Exception ignored) {}
@@ -260,7 +270,11 @@ public class BrowserService extends Service {
     }
     public void killWebView(String tabId) {
         if (activityByTabId.get(tabId) != null) {
-            Objects.requireNonNull(activityByTabId.get(tabId)).finish();
+            Activity activity = Objects.requireNonNull(activityByTabId.get(tabId));
+            // Avoid re-finishing an activity that is already being destroyed
+            if (!activity.isFinishing()) {
+                activity.finish();
+            }
             activityByTabId.remove(tabId);
         }
         if (!hasWebView(tabId)) return;
